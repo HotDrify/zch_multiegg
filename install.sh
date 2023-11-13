@@ -8,12 +8,7 @@ JS_FILENAME="index.js"
 
 motd
 
-echo "
-which egg should you choose?
-
-1)  Forge          3) Python
-2)  Node.js
-"
+echo -e "Which egg should you choose?\n\n1) Forge\n2) Node.js\n3) Python\n"
 
 read -r EGG
 
@@ -21,13 +16,13 @@ case $EGG in
 1)
     sleep 1
     
-    echo "Enter MC version or latest"
+    echo -n "Enter MC version or latest: "
     read -r MC_VERSION
     
-    echo "Enter fabric version or latest"
+    echo -n "Enter fabric version or latest: "
     read -r FABRIC_VERSION
     
-    echo "Enter loader version or latest"
+    echo -n "Enter loader version or latest: "
     read -r LOADER_VERSION
     
     mkdir -p /mnt/server
@@ -61,26 +56,26 @@ case $EGG in
 2)
     sleep 1
     
-    echo "Enter JS filename"
+    echo -n "Enter JS filename: "
     read -r JS_FILENAME
     
-    echo "Installing nodeJS 18.X"
+    echo "Installing Node.js 18.x"
     
     curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
     sudo apt-get install -y nodejs
-    cat "// your code here" > JS_FILENAME
+    echo "// your code here" > $JS_FILENAME
     
     echo -e "Install Complete."
     
     ;;
 3)
-    echo "soon"
+    echo "Coming soon"
 esac
 
-if [ -f $JS_FILENAME ]; then
-    node $JS_FILENAME
+if [ -f "$JS_FILENAME" ]; then
+    node "$JS_FILENAME"
 fi
 
-if [ -f server.jar ]; then
+if [ -f "server.jar" ]; then
     java -Xms128M -Xmx1024M -jar server.jar
 fi
