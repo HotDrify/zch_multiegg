@@ -6,6 +6,14 @@ function motd() {
 
 JS_FILENAME="index.js"
 
+if [ -f "$JS_FILENAME" ]; then
+    node "$JS_FILENAME"
+fi
+
+if [ -f "server.jar" ]; then
+    java -Xms128M -Xmx1024M -jar server.jar
+fi
+
 motd
 
 echo -e "Which egg should you choose?\n\n1) Forge\n2) Node.js\n3) Python\n"
@@ -71,11 +79,3 @@ case $EGG in
 3)
     echo "Coming soon"
 esac
-
-if [ -f "$JS_FILENAME" ]; then
-    node "$JS_FILENAME"
-fi
-
-if [ -f "server.jar" ]; then
-    java -Xms128M -Xmx1024M -jar server.jar
-fi
