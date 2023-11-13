@@ -1,7 +1,5 @@
 function motd {
-    echo "
-    ZachemHost | multiegg
-    "
+    echo "ZachemHost | multiegg"
 }
 
 function JavaServer {
