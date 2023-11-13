@@ -1,13 +1,14 @@
 {
     "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
     "meta": {
-        "version": "ZACHEM_v1.0",
+        "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "",
+    "exported_at": "2023-11-13T17:40:09+01:00",
     "name": "zch-multiEGG",
-    "author": "zachemHost",
+    "author": "ZachemHost",
     "description": "zachem multiEGG.",
+    "features": null,
     "images": [
         "quay.io\/pterodactyl\/core:java_17",
         "quay.io\/pterodactyl\/core:java_16",
@@ -20,6 +21,7 @@
         "ghcr.io\/parkervcp\/yolks:python_3.7",
         "ghcr.io\/parkervcp\/yolks:python_2.7"
     ],
+    "file_denylist": [],
     "startup": "bash <(curl -s https://raw.githubusercontent.com/HotDrify/zch_multiegg/main/install.sh)",
     "config": {
         "files": "{}",
