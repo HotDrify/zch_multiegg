@@ -69,8 +69,8 @@ case $EGG in
     
     echo "Installing Node.js 18.x"
     
-    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt-get install -y nodejs
+    curl -sL https://deb.nodesource.com/setup_18.x | bash -
+    apt-get install -y nodejs
     echo "// your code here" > $JS_FILENAME
     
     echo -e "Install Complete."
