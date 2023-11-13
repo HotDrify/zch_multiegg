@@ -74,7 +74,7 @@ case $EGG in
     
     ;;
 3)
-    # ...
+    echo "soon"
 esac
 
 if [ -f $JS_FILENAME ]; then
