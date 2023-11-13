@@ -5,11 +5,7 @@ function motd() {
 }
 
 function JavaServer() {
-    java -Xms1024M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paper-server.jar nogui
-}
-
-function OptimizeJavaServer() {
-    echo "view-distance=6" >> server.properties
+    java -Xms128M -Xmx1024M -jar server.jar
 }
 
 mkdir -p plugins
@@ -26,25 +22,42 @@ read -r EGG
 case $EGG in 
 1)
     sleep 1
-    echo "enter MC version or latest"
+    
+    echo "Enter MC version or latest"
     read -r MC_VERSION
-    apt install -y curl jq
-    JSON_DATA=$(curl -sSL https://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json)
-    if [[ "${MC_VERSION}" == "latest" ]] || [[ "${MC_VERSION}" == "" ]]; then
-        echo "Download Forge for MC version ${MC_VERSION}"
-        MC_VERSION=$(echo -e ${JSON_DATA} | jq -r '.promos | del(."latest-1.7.10") | del(."1.7.10-latest-1.7.10") | to_entries[] | .key | select(contains("latest")) | split("-")[0]' | sort -t. -k 1,1n | tail -n 1)
+    
+    echo "Enter fabric version or latest"
+    read -r FABRIC_VERSION
+    
+    echo "Enter loader version or latest"
+    read -r LOADER_VERSION
+    
+    mkdir -p /mnt/server
+    cd /mnt/server
+    
+    if [ -z "$MC_VERSION" ] || [ "$MC_VERSION" == "latest" ]; then
+        MC_VERSION=$(curl -sSL https://meta.fabricmc.net/v2/versions/game | jq -r '.[] | select(.stable== true )|.version' | head -n1)
+    elif [ "$MC_VERSION" == "snapshot" ]; then
+        MC_VERSION=$(curl -sSL https://meta.fabricmc.net/v2/versions/game | jq -r '.[] | select(.stable== false )|.version' | head -n1)
     fi
+    
+    if [ -z "$FABRIC_VERSION" ] || [ "$FABRIC_VERSION" == "latest" ]; then
+        FABRIC_VERSION=$(curl -sSL https://meta.fabricmc.net/v2/versions/installer | jq -r '.[0].version')
+    fi
+    
+    if [ -z "$LOADER_VERSION" ] || [ "$LOADER_VERSION" == "latest" ]; then
+        LOADER_VERSION=$(curl -sSL https://meta.fabricmc.net/v2/versions/loader | jq -r '.[] | select(.stable== true )|.version' | head -n1)
+    elif [ "$LOADER_VERSION" == "snapshot" ]; then
+        LOADER_VERSION=$(curl -sSL https://meta.fabricmc.net/v2/versions/loader | jq -r '.[] | select(.stable== false )|.version' | head -n1)
+    fi
+    
+    echo "Installing Fabric ${FABRIC_VERSION}"
+    
+    wget -O fabric-installer.jar https://maven.fabricmc.net/net/fabricmc/fabric-installer/$FABRIC_VERSION/fabric-installer-$FABRIC_VERSION.jar
+    java -jar fabric-installer.jar server -mcversion $MC_VERSION -loader $LOADER_VERSION -downloadMinecraft
+    mv server.jar minecraft-server.jar
+    mv fabric-server-launch.jar server.jar
+    echo "serverJar=minecraft-server.jar" > fabric-server-launcher.properties
+    echo -e "Install Complete"
     ;;
 esac
-
-echo "minecraft version: ${MC_VERSION}"
-
-VERSION_DATA=$(echo -e ${JSON_DATA} | jq -r '.promos["'"${MC_VERSION}"'"]')
-if [[ "${MC_VERSION)" == "latest" ]]; then
-    MC_VERSION=$(echo -e ${VERSION_DATA} | jq -r '.latest')
-else
-    MC_VERSION=$(echo -e ${VERSION_DATA} | jq -r '.recommended')
-fi
-
-echo "minecraft version: ${MC_VERSION}"
-echo "build type: ${BUILD_TYPE}"
