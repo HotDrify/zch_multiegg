@@ -4,16 +4,19 @@ function motd() {
     echo "ZachemHost | multiegg"
 }
 
-mkdir -p plugins
+JS_FILENAME="index.js"
+
 motd
-sleep 5
+
 echo "
 which egg should you choose?
 
 1)  Forge          3) Python
 2)  Node.js
 "
+
 read -r EGG
+
 case $EGG in 
 1)
     sleep 1
@@ -65,6 +68,8 @@ case $EGG in
     
     curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
     sudo apt-get install -y nodejs
+    cat "// your code here" > JS_FILENAME
+    
     echo -e "Install Complete."
     
     ;;
