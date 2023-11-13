@@ -51,6 +51,33 @@
                 "user_viewable": true,
                 "user_editable": true,
                 "rules": "nullable|string|max:100"
+            },
+            {
+                "name": "Java version",
+                "description": "Minecraft java version (https://mcversions.net)",
+                "env_variable": "java_FILENAME",
+                "default_value": "latest",
+                "user_viewable": true,
+                "user_editable": true,
+                "rules": "nullable|string|max:100"
+            },
+            {
+                "name": "java version",
+                "description": "MC version (https://mcversions.net)",
+                "env_variable": "JAVA_VERSION",
+                "default_value": "latest",
+                "user_viewable": true,
+                "user_editable": true,
+                "rules": "nullable|string|max:100"
+            },
+            {
+                "name": "bedrock version",
+                "description": "MC bedrock version",
+                "env_variable": "BEDROCK_VERSION",
+                "default_value": "latest",
+                "user_viewable": true,
+                "user_editable": true,
+                "rules": "nullable|string|max:100"
             }
         ]
     }
