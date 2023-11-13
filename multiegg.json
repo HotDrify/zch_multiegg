@@ -1,0 +1,57 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "ZACHEM_v1.0",
+        "update_url": null
+    },
+    "exported_at": "",
+    "name": "zch-multiEGG",
+    "author": "zachemHost",
+    "description": "zachem multiEGG.",
+    "images": [
+        "quay.io\/pterodactyl\/core:java_17",
+        "quay.io\/pterodactyl\/core:java_16",
+        "quay.io\/pterodactyl\/core:java_11",
+        "quay.io\/pterodactyl\/core:java_8",
+        "quay.io\/pterodactyl\/core:nodejs",
+        "ghcr.io\/parkervcp\/yolks:python_3.11",
+        "ghcr.io\/parkervcp\/yolks:python_3.10",
+        "ghcr.io\/parkervcp\/yolks:python_3.8",
+        "ghcr.io\/parkervcp\/yolks:python_3.7",
+        "ghcr.io\/parkervcp\/yolks:python_2.7"
+    ],
+    "startup": "bash <(curl -s https://raw.githubusercontent.com/HotDrify/zch_multiegg/main/install.sh)",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"server started\"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+        	"script": "#!\/bin\/bash\r\n# miltiegg installation script\r\napt update\r\napt install -y curl jq\r\n\r\n"
+            "container": "ghcr.io/pterodactyl/yolks:debian",
+            "entrypoint": "bash"
+        },
+        "variables": [
+            {
+                "name": "python file name",
+                "description": "python file name.",
+                "env_variable": "PY_FILENAME",
+                "default_value": "main.py",
+                "user_viewable": true,
+                "user_editable": true,
+                "rules": "nullable|string|max:100"
+            },
+            {
+                "name": "nodejs file name",
+                "description": "nodeJS file name",
+                "env_variable": "JS_FILENAME",
+                "default_value": "index.js",
+                "user_viewable": true,
+                "user_editable": true,
+                "rules": "nullable|string|max:100"
+            }
+        ]
+    }
+}
