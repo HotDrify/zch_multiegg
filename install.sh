@@ -4,19 +4,14 @@ function motd() {
     echo "ZachemHost | multiegg"
 }
 
-function JavaServer() {
-    java -Xms128M -Xmx1024M -jar server.jar
-}
-
 mkdir -p plugins
 motd
 sleep 5
 echo "
 which egg should you choose?
 
-1)  Forge          4) Python
-2)  BungeeCord
-3)  Node.js
+1)  Forge          3) Python
+2)  Node.js
 "
 read -r EGG
 case $EGG in 
@@ -58,6 +53,29 @@ case $EGG in
     mv server.jar minecraft-server.jar
     mv fabric-server-launch.jar server.jar
     echo "serverJar=minecraft-server.jar" > fabric-server-launcher.properties
-    echo -e "Install Complete"
+    echo -e "Install Complete."
     ;;
+2)
+    sleep 1
+    
+    echo "Enter JS filename"
+    read -r JS_FILENAME
+    
+    echo "Installing nodeJS 18.X"
+    
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    echo -e "Install Complete."
+    
+    ;;
+3)
+    
 esac
+
+if [ -f $JS_FILENAME ]; then
+    node $JS_FILENAME
+fi
+
+if [ -f server.jar ]; then
+    java -Xms128M -Xmx1024M -jar server.jar
+fi
